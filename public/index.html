@@ -1,0 +1,1725 @@
+<!-- <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Arquivos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        textarea, input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #fileContent {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            width: 720px;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerenciador de Arquivos</h1>
+    <h2>Crie um novo arquivo de texto</h2>
+    <label for="filenameInput">Nome do Arquivo:</label>
+    <input type="text" id="filenameInput" placeholder="ex: meu_arquivo.txt"><br><br>
+
+    <label for="dataInput">Conteúdo do Arquivo:</label><br>
+    <textarea id="dataInput" rows="10" cols="30"></textarea><br>
+
+    <button onclick="saveData()">Salvar Dados</button>
+    <button onclick="loadData()">Carregar Dados</button>
+
+    <div id="fileContent">
+        <h2>Conteúdo do Arquivo:</h2>
+        <p id="fileContentText">Nenhum conteúdo carregado.</p>
+    </div>
+    
+    <script>
+        function saveData() {
+            var filename = document.getElementById('filenameInput').value;
+            var data = document.getElementById('dataInput').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, data: data })
+            })
+            .then(response => response.text())
+            .then(message => alert(message))
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function loadData() {
+            var filename = document.getElementById('filenameInput').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            fetch('/load?filename=' + encodeURIComponent(filename))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('fileContentText').textContent = data || 'Nenhum conteúdo carregado.';
+                alert('Dados carregados com sucesso!');
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Arquivos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        textarea, input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #fileContent {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            width: 720px;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerenciador de Arquivos</h1>
+    <h2>Crie um novo arquivo de texto</h2>
+    <label for="filenameInput">Nome do Arquivo:</label>
+    <input type="text" id="filenameInput" placeholder="ex: meu_arquivo.txt"><br><br>
+
+    <label for="dataInput">Conteúdo do Arquivo:</label><br>
+    <textarea id="dataInput" rows="10" cols="30"></textarea><br>
+
+    <button onclick="saveData()">Salvar Dados</button>
+    <button onclick="loadData()">Carregar Dados</button>
+
+    <div id="fileContent">
+        <h2>Conteúdo do Arquivo:</h2>
+        <p id="fileContentText">Nenhum conteúdo carregado.</p>
+    </div>
+    
+    <script>
+        function saveData() {
+            var filename = document.getElementById('filenameInput').value;
+            var data = document.getElementById('dataInput').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, data: data })
+            })
+            .then(response => response.text())
+            .then(message => alert(message))
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function loadData() {
+            var filename = document.getElementById('filenameInput').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            fetch('/load?filename=' + encodeURIComponent(filename))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('fileContentText').innerHTML = data.replace(/\n/g, '<br>');
+                alert('Dados carregados com sucesso!');
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Arquivos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        textarea, input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 150px;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #fileContent {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            width: 520px;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+        .training-item {
+            width: 300px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        .training-content {
+            margin-top: 10px;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerenciador de Arquivos</h1>
+    <h2>Crie um novo arquivo de texto</h2>
+    <label for="filenameInput">Nome do Arquivo:</label>
+    <input type="text" id="filenameInput" placeholder="ex: meu_arquivo"><br><br>
+
+    <label for="dataInput">Conteúdo do Arquivo:</label><br>
+    <textarea id="dataInput" rows="10" cols="30"></textarea><br>
+
+    <button onclick="saveData()">Salvar Dados</button>
+    <button onclick="loadData()">Carregar Dados</button>
+
+    <div id="fileContent">
+        <h2>Conteúdo do Arquivo:</h2>
+        <p id="fileContentText">Nenhum conteúdo carregado.</p>
+    </div>
+
+    <h2>Lista de Treinos</h2>
+    <div class="trainings" id="trainingsList"></div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalContent"></p>
+        </div>
+    </div>
+
+    <script>
+        function saveData() {
+            var filename = document.getElementById('filenameInput').value;
+            var data = document.getElementById('dataInput').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            // Adicionar extensão .txt se não estiver presente
+            if (!filename.endsWith('.txt')) {
+                filename += '.txt';
+            }
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, data: data })
+            })
+            .then(response => response.text())
+            .then(message => alert(message))
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function loadData() {
+            var filename = document.getElementById('filenameInput').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            // Adicionar extensão .txt se não estiver presente
+            if (!filename.endsWith('.txt')) {
+                filename += '.txt';
+            }
+
+            fetch('/load?filename=' + encodeURIComponent(filename))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('fileContentText').innerHTML = data.replace(/\n/g, '<br>');
+                alert('Dados carregados com sucesso!');
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function loadTrainings() {
+            fetch('/trainings')
+            .then(response => response.json())
+            .then(files => {
+                var trainingsList = document.getElementById('trainingsList');
+                trainingsList.innerHTML = '';
+                files.forEach(file => {
+                    var filenameWithoutExtension = file.replace('.txt', '');
+                    var trainingItem = document.createElement('div');
+                    trainingItem.className = 'training-item';
+                    trainingItem.innerHTML = '<h3>' + filenameWithoutExtension + '</h3>';
+                    trainingItem.onclick = function() {
+                        openModal(filenameWithoutExtension);
+                    };
+                    trainingsList.appendChild(trainingItem);
+                });
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function openModal(filename) {
+            fetch('/load?filename=' + encodeURIComponent(filename + '.txt'))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('modalTitle').innerText = filename;
+                document.getElementById('modalContent').innerHTML = data.replace(/\n/g, '<br>');
+                document.getElementById('myModal').style.display = 'block';
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('myModal')) {
+                closeModal();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTrainings);
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Arquivos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        textarea, input[type="text"] {
+            width: 500px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 150px;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #fileContent {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            width: 320px;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+        .training-item {
+            width: 500px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        .training-content {
+            margin-top: 10px;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerenciador de Arquivos</h1>
+    <h2>Crie ou Edite um Arquivo de Texto</h2>
+    <label for="filenameInput">Nome do Arquivo:</label>
+    <input type="text" id="filenameInput" placeholder="ex: meu_arquivo"><br><br>
+
+    <label for="dataInput">Conteúdo do Arquivo:</label><br>
+    <textarea id="dataInput" rows="10" cols="30"></textarea><br>
+
+    <button onclick="saveData()">Salvar Dados</button>
+    <button onclick="loadData()">Carregar Dados</button>
+
+
+    <h2>Lista de Treinos</h2>
+    <div class="trainings" id="trainingsList"></div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <textarea id="modalContent" rows="10" cols="50"></textarea><br>
+            <button onclick="saveDataFromModal()">Salvar Alterações</button>
+        </div>
+    </div>
+
+    <script>
+        function saveData() {
+            var filename = document.getElementById('filenameInput').value;
+            var data = document.getElementById('dataInput').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            // Adicionar extensão .txt se não estiver presente
+            if (!filename.endsWith('.txt')) {
+                filename += '.txt';
+            }
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, data: data })
+            })
+            .then(response => response.text())
+            .then(message => alert(message))
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function loadData() {
+            var filename = document.getElementById('filenameInput').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            // Adicionar extensão .txt se não estiver presente
+            if (!filename.endsWith('.txt')) {
+                filename += '.txt';
+            }
+
+            fetch('/load?filename=' + encodeURIComponent(filename))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('dataInput').value = data;
+                alert('Dados carregados com sucesso!');
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function loadTrainings() {
+            fetch('/trainings')
+            .then(response => response.json())
+            .then(files => {
+                var trainingsList = document.getElementById('trainingsList');
+                trainingsList.innerHTML = '';
+                files.forEach(file => {
+                    var filenameWithoutExtension = file.replace('.txt', '');
+                    var trainingItem = document.createElement('div');
+                    trainingItem.className = 'training-item';
+                    trainingItem.innerHTML = '<h3>' + filenameWithoutExtension + '</h3>';
+                    trainingItem.onclick = function() {
+                        openModal(filenameWithoutExtension);
+                    };
+                    trainingsList.appendChild(trainingItem);
+                });
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function openModal(filename) {
+            fetch('/load?filename=' + encodeURIComponent(filename + '.txt'))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('modalTitle').innerText = filename;
+                document.getElementById('modalContent').value = data;
+                document.getElementById('myModal').style.display = 'block';
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+
+        function saveDataFromModal() {
+            var filename = document.getElementById('modalTitle').innerText;
+            var data = document.getElementById('modalContent').value;
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename + '.txt', data: data })
+            })
+            .then(response => response.text())
+            .then(message => {
+                alert(message);
+                closeModal();
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('myModal')) {
+                closeModal();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTrainings);
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Arquivos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        textarea, input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #fileContent {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            width: 320px;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+        .training-item {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerenciador de Arquivos</h1>
+    <h2>Crie ou Edite um Arquivo de Texto</h2>
+    <label for="filenameInput">Nome do Arquivo:</label>
+    <input type="text" id="filenameInput" placeholder="ex: meu_arquivo"><br><br>
+
+    <button id="openModalButton" onclick="openModal()" disabled>Cadastrar Treino</button>
+
+    <div id="fileContent" class="hidden">
+        <h2>Conteúdo do Arquivo:</h2>
+        <label for="dataInput">Conteúdo do Arquivo:</label><br>
+        <textarea id="dataInput" rows="10" cols="30"></textarea><br>
+        <button onclick="saveData()">Salvar Dados</button>
+    </div>
+
+    <h2>Lista de Treinos</h2>
+    <div class="trainings" id="trainingsList"></div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Cadastro de Treino</h2>
+            <label for="modalFilenameInput">Nome da Pasta:</label>
+            <input type="text" id="modalFilenameInput" placeholder="ex: pasta_treino">
+            <button onclick="confirmFilename()">Confirmar</button>
+        </div>
+    </div>
+
+    <div id="trainingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTrainingModal()">&times;</span>
+            <h2 id="trainingModalTitle"></h2>
+            <div id="trainingModalContent"></div>
+            <button onclick="editTraining()">Atualizar Treino</button>
+            <button id="saveTrainingButton" class="hidden" onclick="saveUpdatedTraining()">Salvar Treino</button>
+        </div>
+    </div>
+
+    <script>
+        const filenameInput = document.getElementById('filenameInput');
+        const openModalButton = document.getElementById('openModalButton');
+        const trainingModalContent = document.getElementById('trainingModalContent');
+        const saveTrainingButton = document.getElementById('saveTrainingButton');
+
+        filenameInput.addEventListener('input', () => {
+            if (filenameInput.value.trim() !== '') {
+                openModalButton.disabled = false;
+            } else {
+                openModalButton.disabled = true;
+            }
+        });
+
+        function openModal() {
+            document.getElementById('myModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+
+        function confirmFilename() {
+            const modalFilenameInput = document.getElementById('modalFilenameInput').value.trim();
+            if (modalFilenameInput !== '') {
+                filenameInput.value = modalFilenameInput;
+                document.getElementById('fileContent').classList.remove('hidden');
+                closeModal();
+            } else {
+                alert('Por favor, insira o nome da pasta.');
+            }
+        }
+
+        function saveData() {
+            var filename = document.getElementById('filenameInput').value;
+            var data = document.getElementById('dataInput').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            // Adicionar extensão .txt se não estiver presente
+            if (!filename.endsWith('.txt')) {
+                filename += '.txt';
+            }
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, data: data })
+            })
+            .then(response => response.text())
+            .then(message => alert(message))
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function loadTrainings() {
+            fetch('/trainings')
+            .then(response => response.json())
+            .then(files => {
+                var trainingsList = document.getElementById('trainingsList');
+                trainingsList.innerHTML = '';
+                files.forEach(file => {
+                    var filenameWithoutExtension = file.replace('.txt', '');
+                    var trainingItem = document.createElement('div');
+                    trainingItem.className = 'training-item';
+                    trainingItem.innerHTML = '<h3>' + filenameWithoutExtension + '</h3>';
+                    trainingItem.onclick = function() {
+                        openTrainingModal(filenameWithoutExtension);
+                    };
+                    trainingsList.appendChild(trainingItem);
+                });
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function openTrainingModal(filename) {
+            fetch('/load?filename=' + encodeURIComponent(filename + '.txt'))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('trainingModalTitle').innerText = filename;
+                trainingModalContent.innerHTML = data.split('\n').map(line => '<p>' + line + '</p>').join('');
+                document.getElementById('trainingModal').style.display = 'block';
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function closeTrainingModal() {
+            document.getElementById('trainingModal').style.display = 'none';
+            saveTrainingButton.classList.add('hidden');
+        }
+
+        function editTraining() {
+            const filename = document.getElementById('trainingModalTitle').innerText;
+            fetch('/load?filename=' + encodeURIComponent(filename + '.txt'))
+            .then(response => response.text())
+            .then(data => {
+                trainingModalContent.innerHTML = '<textarea id="editTrainingContent" rows="10" cols="50">' + data + '</textarea>';
+                saveTrainingButton.classList.remove('hidden');
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function saveUpdatedTraining() {
+            const filename = document.getElementById('trainingModalTitle').innerText + '.txt';
+            const data = document.getElementById('editTrainingContent').value;
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, data: data })
+            })
+            .then(response => response.text())
+            .then(message => {
+    alert(message);
+    closeTrainingModal();
+    loadTrainings(); // Adicione aqui os parênteses para chamar a função corretamente
+})
+.catch(error => console.error('Erro:', error));
+}
+
+// Fecha o pop-up se o usuário clicar fora do modal
+window.onclick = function(event) {
+    if (event.target == document.getElementById('myModal') || event.target == document.getElementById('trainingModal')) {
+        closeModal();
+        closeTrainingModal();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadTrainings);
+</script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Arquivos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        textarea, input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        textarea{
+            width: 500px;
+            height: 400px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #fileContent {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            width: 320px;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+        .training-item {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerenciador de Arquivos</h1>
+    <h2>Crie ou Edite um Arquivo de Texto</h2>
+    <label for="filenameInput">Nome do Arquivo:</label>
+    <input type="text" id="filenameInput" placeholder="ex: meu_arquivo"><br><br>
+
+    <button id="openModalButton" onclick="openPopup()" disabled>Cadastrar Treino</button>
+
+    <div id="fileContent" class="hidden">
+        <h2>Conteúdo do Arquivo:</h2>
+        <label for="dataInput">Conteúdo do Arquivo:</label><br>
+        <textarea id="dataInput" rows="10" cols="30"></textarea><br>
+        <button onclick="saveData()">Salvar Dados</button>
+    </div>
+
+    <h2>Lista de Treinos</h2>
+    <div class="trainings" id="trainingsList"></div>
+
+    <div id="myPopup" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h2 id="popupTitle">Cadastro de Treino</h2>
+            <label for="popupFilename">Nome do Arquivo:</label>: 
+            <h3 id="popupFilename"></h3>
+            <label for="popupTextarea">Conteúdo do Arquivo:</label><br>
+            <textarea id="popupTextarea" rows="10" cols="30"></textarea><br>
+            <button onclick="savePopupData()">Salvar Arquivo</button>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Cadastro de Treino</h2>
+            <label for="modalFilenameInput">Nome da Pasta:</label>
+            <input type="text" id="modalFilenameInput" placeholder="ex: pasta_treino">
+            <button onclick="confirmFilename()">Confirmar</button>
+        </div>
+    </div>
+
+    <div id="trainingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTrainingModal()">&times;</span>
+            <h2 id="trainingModalTitle"></h2>
+            <div id="trainingModalContent"></div>
+            <button onclick="editTraining()">Atualizar Treino</button>
+            <button id="saveTrainingButton" class="hidden" onclick="saveUpdatedTraining()">Salvar Treino</button>
+        </div>
+    </div>
+
+    <script>
+        const filenameInput = document.getElementById('filenameInput');
+        const openModalButton = document.getElementById('openModalButton');
+
+        filenameInput.addEventListener('input', () => {
+            if (filenameInput.value.trim() !== '') {
+                openModalButton.disabled = false;
+            } else {
+                openModalButton.disabled = true;
+            }
+        });
+
+        function openPopup() {
+            document.getElementById('popupFilename').innerText = filenameInput.value;
+            document.getElementById('myPopup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('myPopup').style.display = 'none';
+        }
+
+        function savePopupData() {
+            var filename = document.getElementById('popupFilename').innerText;
+            var data = document.getElementById('popupTextarea').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            // Adicionar extensão .txt se não estiver presente
+            if (!filename.endsWith('.txt')) {
+                filename += '.txt';
+            }
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, data: data })
+            })
+            .then(response => response.text())
+            .then(message => alert(message))
+            .catch(error => console.error('Erro:', error));
+
+            closePopup();
+        }
+
+        function confirmFilename() {
+            const modalFilenameInput = document.getElementById('modalFilenameInput').value.trim();
+            if (modalFilenameInput !== '') {
+                filenameInput.value = modalFilenameInput;
+                document.getElementById('fileContent').classList.remove('hidden');
+                closeModal();
+            } else {
+                alert('Por favor, insira o nome da pasta.');
+            }
+        }
+
+        function saveData() {
+            var filename = document.getElementById('filenameInput').value;
+            var data = document.getElementById('dataInput').value;
+
+            if (filename === '') {
+                alert('Por favor, insira o nome do arquivo.');
+                return;
+            }
+
+            // Adicionar extensão .txt se não estiver presente
+            if (!filename.endsWith('.txt')) {
+                filename += '.txt';
+            }
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, data: data })
+            })
+            .then(response => response.text())
+            .then(message => alert(message))
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function loadTrainings() {
+            fetch('/trainings')
+            .then(response => response.json())
+            .then(files => {
+                var trainingsList = document.getElementById('trainingsList');
+                trainingsList.innerHTML = '';
+                files.forEach(file => {
+                    var filenameWithoutExtension = file.replace('.txt', '');
+                    var trainingItem = document.createElement('div');
+                    trainingItem.className = 'training-item';
+                    trainingItem.innerHTML = '<h3>' + filenameWithoutExtension + '</h3>';
+                    trainingItem.onclick = function() {
+                        openTrainingModal(filenameWithoutExtension);
+                    };
+                    trainingsList.appendChild(trainingItem);
+                });
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function openTrainingModal(filename) {
+            fetch('/load?filename=' + encodeURIComponent(filename + '.txt'))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('trainingModalTitle').innerText = filename;
+                trainingModalContent.innerHTML = data.split('\n').map(line => '<p>' + line + '</p>').join('');
+                document.getElementById('trainingModal').style.display = 'block';
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function closeTrainingModal() {
+            document.getElementById('trainingModal').style.display = 'none';
+            saveTrainingButton.classList.add('hidden');
+        }
+
+        function editTraining() {
+            const filename = document.getElementById('trainingModalTitle').innerText;
+            fetch('/load?filename=' + encodeURIComponent(filename + '.txt'))
+            .then(response => response.text())
+            .then(data => {
+                trainingModalContent.innerHTML = '<textarea id="editTrainingContent" rows="10" cols="50">' + data + '</textarea>';
+                saveTrainingButton.classList.remove('hidden');
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function saveUpdatedTraining() {
+            const filename = document.getElementById('trainingModalTitle').innerText + '.txt';
+            const data = document.getElementById('editTrainingContent').value;
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, data: data })
+            })
+            .then(response => response.text())
+            .then(message => {
+                alert(message);
+                closeTrainingModal();
+                loadTrainings();
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        // Fecha o pop-up se o usuário clicar fora do modal
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('myPopup') || event.target == document.getElementById('trainingModal')) {
+                closePopup();
+                closeTrainingModal();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTrainings);
+    </script>
+</body>
+</html>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+ <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gerenciador de Arquivos</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                margin: 0;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            h1, h2 {
+                color: #333;
+            }
+            textarea, input[type="text"] {
+                width: 300px;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            button {
+                padding: 10px 20px;
+                margin: 5px;
+                border: none;
+                border-radius: 5px;
+                background-color: #007bff;
+                color: white;
+                cursor: pointer;
+            }
+            button:disabled {
+                background-color: #cccccc;
+                cursor: not-allowed;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+            #fileContent {
+                margin-top: 20px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #fff;
+                width: 320px;
+                max-width: 100%;
+                word-wrap: break-word;
+            }
+            .training-item {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #fff;
+                padding: 10px;
+                margin: 5px 0;
+                cursor: pointer;
+            }
+            .hidden {
+                display: none;
+            }
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgb(0,0,0);
+                background-color: rgba(0,0,0,0.4);
+                padding-top: 60px;
+            }
+            .modal-content {
+                background-color: #fefefe;
+                margin: 5% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+                max-width: 600px;
+                border-radius: 5px;
+                text-align: center;
+            }
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Gerenciador de Arquivos</h1>
+        <h2>Crie ou Edite um Arquivo de Texto</h2>
+        <label for="filenameInput">Nome do Arquivo:</label>
+        <input type="text" id="filenameInput" placeholder="ex: meu_arquivo"><br><br>
+    
+        <button id="openModalButton" onclick="openPopup()" disabled>Cadastrar Treino</button>
+    
+        <div id="fileContent" class="hidden">
+            <h2>Conteúdo do Arquivo:</h2>
+            <label for="dataInput">Conteúdo do Arquivo:</label><br>
+            <textarea id="dataInput" rows="10" cols="30"></textarea><br>
+            <button onclick="saveData()">Salvar Dados</button>
+        </div>
+    
+        <h2>Lista de Treinos</h2>
+        <div class="trainings" id="trainingsList"></div>
+    
+        <div id="myPopup" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closePopup()">&times;</span>
+                <h2 id="popupTitle">Cadastro de Treino</h2>
+                <label for="popupFilename">Nome do Arquivo:</label>
+                <p id="popupFilename"></p>
+                <label for="popupTextarea">Conteúdo do Arquivo:</label><br>
+                <textarea id="popupTextarea" rows="10" cols="30"></textarea><br>
+                <button onclick="savePopupData()">Salvar Arquivo</button>
+            </div>
+        </div>
+    
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 id="modalTitle">Cadastro de Treino</h2>
+                <label for="modalFilenameInput">Nome da Pasta:</label>
+                <input type="text" id="modalFilenameInput" placeholder="ex: pasta_treino">
+                <button onclick="confirmFilename()">Confirmar</button>
+            </div>
+        </div>
+    
+        <div id="trainingModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeTrainingModal()">&times;</span>
+                <h2 id="trainingModalTitle"></h2>
+                <div id="trainingModalContent"></div>
+                <button onclick="editTraining()">Atualizar Treino</button>
+                <button id="saveTrainingButton" class="hidden" onclick="saveUpdatedTraining()">Salvar Treino</button>
+            </div>
+        </div>
+    
+        <script>
+            const filenameInput = document.getElementById('filenameInput');
+            const openModalButton = document.getElementById('openModalButton');
+    
+            let existingFilenames = [];
+    
+            filenameInput.addEventListener('input', () => {
+                if (filenameInput.value.trim() !== '' && !existingFilenames.includes(filenameInput.value.trim() + '.txt')) {
+                    openModalButton.disabled = false;
+                } else {
+                    openModalButton.disabled = true;
+                }
+            });
+    
+            function openPopup() {
+                document.getElementById('popupFilename').innerText = filenameInput.value;
+                document.getElementById('myPopup').style.display = 'block';
+            }
+    
+            function closePopup() {
+                document.getElementById('myPopup').style.display = 'none';
+            }
+    
+            function savePopupData() {
+                var filename = document.getElementById('popupFilename').innerText;
+                var data = document.getElementById('popupTextarea').value;
+    
+                if (filename === '') {
+                    alert('Por favor, insira o nome do arquivo.');
+                    return;
+                }
+    
+                // Adicionar extensão .txt se não estiver presente
+                if (!filename.endsWith('.txt')) {
+                    filename += '.txt';
+                }
+    
+                if (existingFilenames.includes(filename)) {
+                    alert('O nome do arquivo já existe. Por favor, escolha outro nome.');
+                    return;
+                }
+    
+                fetch('/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ filename: filename, data: data })
+                })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);
+                    existingFilenames.push(filename);
+                })
+                .catch(error => console.error('Erro:', error));
+    
+                closePopup();
+            }
+    
+            function confirmFilename() {
+                const modalFilenameInput = document.getElementById('modalFilenameInput').value.trim();
+                if (modalFilenameInput !== '') {
+                    filenameInput.value = modalFilenameInput;
+                    document.getElementById('fileContent').classList.remove('hidden');
+                    closeModal();
+                } else {
+                    alert('Por favor, insira o nome da pasta.');
+                }
+            }
+    
+            function saveData() {
+                var filename = document.getElementById('filenameInput').value;
+                var data = document.getElementById('dataInput').value;
+    
+                if (filename === '') {
+                    alert('Por favor, insira o nome do arquivo.');
+                    return;
+                }
+    
+                // Adicionar extensão .txt se não estiver presente
+                if (!filename.endsWith('.txt')) {
+                    filename += '.txt';
+                }
+    
+                if (existingFilenames.includes(filename)) {
+                    alert('O nome do arquivo já existe. Por favor, escolha outro nome.');
+                    return;
+                }
+    
+                fetch('/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ filename: filename, data: data })
+                })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);
+                    existingFilenames.push(filename);
+                })
+                .catch(error => console.error('Erro:', error));
+            }
+    
+            function loadTrainings() {
+                fetch('/trainings')
+                .then(response => response.json())
+                .then(files => {
+                    existingFilenames = files;
+                    var trainingsList = document.getElementById('trainingsList');
+                    trainingsList.innerHTML = '';
+                    files.forEach(file => {
+                        var filenameWithoutExtension = file.replace('.txt', '');
+                        var trainingItem = document.createElement('div');
+                        trainingItem.className = 'training-item';
+                        trainingItem.innerHTML = '<h3>' + filenameWithoutExtension + '</h3>';
+                        console.log(files);
+                    trainingItem.onclick = function() {
+                        openTrainingModal(filenameWithoutExtension);
+                    };
+                    trainingsList.appendChild(trainingItem);
+                });
+            })
+            .catch(error => console.error('Erro:', error));
+            
+        }
+
+        function openTrainingModal(filename) {
+            fetch('/load?filename=' + encodeURIComponent(filename + '.txt'))
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('trainingModalTitle').innerText = filename;
+                trainingModalContent.innerHTML = data.split('\n').map(line => '<p>' + line + '</p>').join('');
+                document.getElementById('trainingModal').style.display = 'block';
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function closeTrainingModal() {
+            document.getElementById('trainingModal').style.display = 'none';
+            saveTrainingButton.classList.add('hidden');
+        }
+
+        function editTraining() {
+            const filename = document.getElementById('trainingModalTitle').innerText;
+            fetch('/load?filename=' + encodeURIComponent(filename + '.txt'))
+            .then(response => response.text())
+            .then(data => {
+                trainingModalContent.innerHTML = '<textarea id="editTrainingContent" rows="10" cols="50">' + data + '</textarea>';
+                saveTrainingButton.classList.remove('hidden');
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        function saveUpdatedTraining() {
+            const filename = document.getElementById('trainingModalTitle').innerText + '.txt';
+            const data = document.getElementById('editTrainingContent').value;
+
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filename: filename, data: data })
+            })
+            .then(response => response.text())
+            .then(message => {
+                alert(message);
+                closeTrainingModal();
+                loadTrainings();
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+
+        // Fecha o pop-up se o usuário clicar fora do modal
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('myPopup') || event.target == document.getElementById('trainingModal')) {
+                closePopup();
+                closeTrainingModal();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTrainings);
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
